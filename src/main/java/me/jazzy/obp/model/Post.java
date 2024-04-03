@@ -18,9 +18,21 @@ public class Post {
 
     private LocalDate shareDate;
 
+    private String context;
+
     @ManyToOne
     private User user;
 
     @OneToMany
     private List<Comment> comments;
+
+    public Post(String context,
+                User user,
+                LocalDate shareDate,
+                List<Comment> comments) {
+        this.shareDate = shareDate;
+        this.context = context;
+        this.user = user;
+        this.comments = comments;
+    }
 }
