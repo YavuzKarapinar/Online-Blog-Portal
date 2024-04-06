@@ -26,13 +26,17 @@ public class Post {
     @OneToMany
     private List<Comment> comments;
 
+    private Long likes;
+
     public Post(String context,
                 User user,
                 LocalDate shareDate,
+                Long likes,
                 List<Comment> comments) {
         this.shareDate = shareDate;
         this.context = context;
         this.user = user;
         this.comments = comments;
+        this.likes = likes;
     }
 }

@@ -26,6 +26,7 @@ public class PostService {
                 postDto.getContext(),
                 user,
                 LocalDate.now(),
+                0L,
                 null
         );
 
