@@ -19,6 +19,11 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
 
+    public Post getById(Long id) {
+        return postRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("There is no such post."));
+    }
+
     public ResponseBody savePost(PostDto postDto) {
         User user = userService.getByEmail(postDto.getBloggerEmail());
 
@@ -40,8 +45,7 @@ public class PostService {
     }
 
     public ResponseBody updatePost(Long id, PostDto postDto) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("There is no such post."));
+        Post post = getById(id);
 
         post.setContext(postDto.getContext());
 
