@@ -16,7 +16,20 @@ public class Comment {
     @ManyToOne
     private Post post;
 
+    @ManyToOne
+    private User user;
+
     private String context;
 
     private Long likes;
+
+    public Comment(Post post,
+                   User user,
+                   String context,
+                   Long likes) {
+        this.post = post;
+        this.user = user;
+        this.context = context;
+        this.likes = likes;
+    }
 }
