@@ -2,6 +2,7 @@ package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
 import me.jazzy.obp.dto.CommentDto;
+import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.ResponseBody;
 import me.jazzy.obp.model.Comment;
 import me.jazzy.obp.model.Post;
@@ -53,6 +54,22 @@ public class CommentService {
         return new ResponseBody(
                 HttpStatus.CREATED.value(),
                 "Comment Added to Post.",
+                LocalDateTime.now()
+        );
+    }
+
+    public ResponseBody likeComment(LikeDto likeDto) {
+
+        Comment comment = commentRepository.findById(likeDto.getId())
+                .orElseThrow(() -> new RuntimeException("There is no such comment."));
+
+        comment.setLikes(comment.getLikes() + likeDto.getQuantity());
+
+        commentRepository.save(comment);
+
+        return new ResponseBody(
+                HttpStatus.OK.value(),
+                "Comment liked.",
                 LocalDateTime.now()
         );
     }

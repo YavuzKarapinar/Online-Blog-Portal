@@ -3,6 +3,7 @@ package me.jazzy.obp.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import me.jazzy.obp.dto.CommentDto;
+import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.ResponseBody;
 import me.jazzy.obp.model.Comment;
 import me.jazzy.obp.service.CommentService;
@@ -33,6 +34,11 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<ResponseBody> saveComment(@RequestBody CommentDto commentDto) {
         return new ResponseEntity<>(commentService.save(commentDto), HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<ResponseBody> likeComment(@RequestBody LikeDto likeDto) {
+        return new ResponseEntity<>(commentService.likeComment(likeDto), HttpStatus.OK);
     }
 
 }
