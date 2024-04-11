@@ -20,6 +20,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public Category getByName(String name) {
+        return categoryRepository.findByName(name)
+                    .orElseThrow(() -> new RuntimeException("There is no such category."));
+    }
+
     public ResponseBody save(Category category) {
         categoryRepository.save(category);
 
