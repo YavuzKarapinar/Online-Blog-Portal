@@ -1,6 +1,7 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.PostDto;
 import me.jazzy.obp.dto.ResponseBody;
 import me.jazzy.obp.model.Post;
@@ -54,6 +55,22 @@ public class PostService {
         return new ResponseBody(
                 HttpStatus.OK.value(),
                 "Post Updated.",
+                LocalDateTime.now()
+        );
+    }
+
+    public ResponseBody likePost(LikeDto likeDto) {
+
+        Post post = postRepository.findById(likeDto.getId())
+                .orElseThrow(() -> new RuntimeException("There is no such post."));
+
+        post.setLikes(post.getLikes() + likeDto.getQuantity());
+
+        postRepository.save(post);
+
+        return new ResponseBody(
+                HttpStatus.OK.value(),
+                "Post liked.",
                 LocalDateTime.now()
         );
     }

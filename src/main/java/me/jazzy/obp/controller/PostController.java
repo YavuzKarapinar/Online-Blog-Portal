@@ -2,6 +2,7 @@ package me.jazzy.obp.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.PostDto;
 import me.jazzy.obp.dto.ResponseBody;
 import me.jazzy.obp.service.PostService;
@@ -26,5 +27,10 @@ public class PostController {
     public ResponseEntity<ResponseBody> updatePost(@PathVariable Long id,
                                                    @RequestBody PostDto postDto) {
         return new ResponseEntity<>(postService.updatePost(id, postDto), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<ResponseBody> likePost(@RequestBody LikeDto likeDto) {
+        return new ResponseEntity<>(postService.likePost(likeDto), HttpStatus.OK);
     }
 }
