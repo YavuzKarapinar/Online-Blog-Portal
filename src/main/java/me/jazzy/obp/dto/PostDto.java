@@ -7,4 +7,5 @@ public class PostDto {
 
     private String bloggerEmail;
     private String context;
+    private String categoryName;
 }

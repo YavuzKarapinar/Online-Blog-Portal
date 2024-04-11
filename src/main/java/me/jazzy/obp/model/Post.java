@@ -23,6 +23,9 @@ public class Post {
     @ManyToOne
     private User user;
 
+    @ManyToOne
+    private Category category;
+
     @OneToMany
     private List<Comment> comments;
 
@@ -30,12 +33,14 @@ public class Post {
 
     public Post(String context,
                 User user,
+                Category category,
                 LocalDate shareDate,
                 Long likes,
                 List<Comment> comments) {
         this.shareDate = shareDate;
         this.context = context;
         this.user = user;
+        this.category = category;
         this.comments = comments;
         this.likes = likes;
     }

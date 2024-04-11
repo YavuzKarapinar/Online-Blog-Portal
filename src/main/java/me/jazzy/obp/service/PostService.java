@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.PostDto;
 import me.jazzy.obp.dto.ResponseBody;
+import me.jazzy.obp.model.Category;
 import me.jazzy.obp.model.Post;
 import me.jazzy.obp.model.User;
 import me.jazzy.obp.repository.PostRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -19,18 +21,25 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
+    private final CategoryService categoryService;
 
     public Post getById(Long id) {
         return postRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("There is no such post."));
     }
 
+    public List<Post> getAllByCategoryName(String name) {
+        return postRepository.findAllByCategoryName(name);
+    }
+
     public ResponseBody savePost(PostDto postDto) {
         User user = userService.getByEmail(postDto.getBloggerEmail());
+        Category category = categoryService.getByName(postDto.getCategoryName());
 
         Post post = new Post(
                 postDto.getContext(),
                 user,
+                category,
                 LocalDate.now(),
                 0L,
                 null
