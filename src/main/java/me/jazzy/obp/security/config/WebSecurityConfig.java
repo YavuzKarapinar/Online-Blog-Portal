@@ -44,9 +44,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(configurer -> {
                     configurer.requestMatchers(WHITE_LIST)
                             .permitAll();
-                    configurer.requestMatchers(HttpMethod.POST, "/api/v1/auth/login")
-                            .permitAll();
-                    configurer.requestMatchers(HttpMethod.POST, "/api/v1/auth/register")
+                    configurer.requestMatchers(HttpMethod.POST, "/api/v1/auth/**")
                             .permitAll();
                     configurer.anyRequest().authenticated();
                 })
