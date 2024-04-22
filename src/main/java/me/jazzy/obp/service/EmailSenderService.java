@@ -1,6 +1,7 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.notfound.UserNotFoundException;
 import me.jazzy.obp.validator.EmailValidation;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,7 +46,7 @@ public class EmailSenderService {
         boolean isValidFrom = emailValidation.test(from);
         boolean isValidTo = emailValidation.test(to);
 
-        if(!isValidFrom || !isValidTo) throw new RuntimeException("Wrong Email");
+        if(!isValidFrom || !isValidTo) throw new UserNotFoundException("Email not found.");
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);

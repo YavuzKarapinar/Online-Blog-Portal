@@ -1,6 +1,7 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.notfound.PostNotFoundException;
 import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.PostDto;
 import me.jazzy.obp.dto.ResponseBody;
@@ -25,7 +26,7 @@ public class PostService {
 
     public Post getById(Long id) {
         return postRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("There is no such post."));
+                    .orElseThrow(() -> new PostNotFoundException("There is no such post."));
     }
 
     public List<Post> getAllByCategoryName(String name) {
@@ -70,8 +71,7 @@ public class PostService {
 
     public ResponseBody likePost(LikeDto likeDto) {
 
-        Post post = postRepository.findById(likeDto.getId())
-                .orElseThrow(() -> new RuntimeException("There is no such post."));
+        Post post = getById(likeDto.getId());
 
         post.setLikes(post.getLikes() + likeDto.getQuantity());
 

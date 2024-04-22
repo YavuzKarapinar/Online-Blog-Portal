@@ -1,6 +1,7 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.notfound.UserNotFoundException;
 import me.jazzy.obp.dto.ResponseBody;
 import me.jazzy.obp.dto.UserDto;
 import me.jazzy.obp.model.User;
@@ -24,17 +25,17 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("There is no such username."));
+                .orElseThrow(() -> new UserNotFoundException("There is no such username."));
     }
 
     public User getByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("There is no such username or user"));
+                .orElseThrow(() -> new UserNotFoundException("There is no such username or user"));
     }
 
     public User getById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("There is no such user"));
+                .orElseThrow(() -> new UserNotFoundException("There is no such user"));
     }
 
     public void saveUser(User user) {

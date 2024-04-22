@@ -1,6 +1,7 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.notfound.UserNotFoundException;
 import me.jazzy.obp.dto.LoginDto;
 import me.jazzy.obp.dto.RegisterDto;
 import me.jazzy.obp.dto.ResponseBody;
@@ -32,7 +33,7 @@ public class AuthService {
         boolean isValidEmail = emailValidation.test(registerDto.getEmail());
 
         if(!isValidEmail)
-            throw new UsernameNotFoundException("Email is not valid.");
+            throw new UserNotFoundException("Email is not valid.");
 
         User user = new User(
                 registerDto.getFirstName(),

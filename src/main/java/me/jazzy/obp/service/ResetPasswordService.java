@@ -1,6 +1,10 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.badrequest.TokenBadRequestException;
+import me.jazzy.obp.config.exception.badrequest.UserBadRequestException;
+import me.jazzy.obp.config.exception.notfound.TokenNotFoundException;
+import me.jazzy.obp.config.exception.notfound.UserNotFoundException;
 import me.jazzy.obp.dto.ChangePasswordDto;
 import me.jazzy.obp.dto.ResetPasswordRequest;
 import me.jazzy.obp.dto.ResponseBody;
@@ -27,7 +31,7 @@ public class ResetPasswordService {
         boolean isValidEmail = emailValidation.test(resetPasswordRequest.getEmail());
 
         if (!isValidEmail)
-            throw new RuntimeException("There is no such email.");
+            throw new UserNotFoundException("There is no such email.");
 
         UUID uuid = UUID.randomUUID();
         User user = userService.getByEmail(resetPasswordRequest.getEmail());
@@ -58,10 +62,10 @@ public class ResetPasswordService {
     public ResponseBody checkResetToken(UUID token) {
 
         ResetPassword resetPassword = resetPasswordRepository.findByUuid(token)
-                .orElseThrow(() -> new RuntimeException("There is no such token"));
+                .orElseThrow(() -> new TokenNotFoundException("There is no such token"));
 
         if (isEnabled(resetPassword) || isExpired(resetPassword))
-            throw new RuntimeException("Your token is not valid.");
+            throw new TokenBadRequestException("Your token is not valid.");
 
         resetPassword.setEnabled(true);
 
@@ -79,12 +83,12 @@ public class ResetPasswordService {
         boolean isValidEmail = emailValidation.test(changePasswordDto.getEmail());
 
         if (!isValidEmail)
-            throw new RuntimeException("There is no such email.");
+            throw new UserNotFoundException("There is no such email.");
 
         User user = userService.getByEmail(changePasswordDto.getEmail());
 
         if(!isPasswordSame(changePasswordDto))
-            throw new RuntimeException("Passwords not same!");
+            throw new UserBadRequestException("Passwords not same!");
 
         user.setPassword(changePasswordDto.getNewPassword());
         userService.saveUser(user);

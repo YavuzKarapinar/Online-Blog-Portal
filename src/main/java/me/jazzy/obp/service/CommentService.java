@@ -1,6 +1,8 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.notfound.CommentNotFoundException;
+import me.jazzy.obp.config.exception.notfound.UserNotFoundException;
 import me.jazzy.obp.dto.CommentDto;
 import me.jazzy.obp.dto.LikeDto;
 import me.jazzy.obp.dto.ResponseBody;
@@ -37,7 +39,7 @@ public class CommentService {
         boolean isValid = emailValidation.test(commentDto.getEmail());
 
         if(!isValid)
-            throw new RuntimeException("There is no such email.");
+            throw new UserNotFoundException("There is no such email.");
 
         User user = userService.getByEmail(commentDto.getEmail());
         Post post = postService.getById(commentDto.getPostId());
@@ -61,7 +63,7 @@ public class CommentService {
     public ResponseBody likeComment(LikeDto likeDto) {
 
         Comment comment = commentRepository.findById(likeDto.getId())
-                .orElseThrow(() -> new RuntimeException("There is no such comment."));
+                .orElseThrow(() -> new CommentNotFoundException("There is no such comment."));
 
         comment.setLikes(comment.getLikes() + likeDto.getQuantity());
 

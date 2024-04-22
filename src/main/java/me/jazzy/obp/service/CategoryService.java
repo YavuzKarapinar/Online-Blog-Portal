@@ -1,6 +1,7 @@
 package me.jazzy.obp.service;
 
 import lombok.AllArgsConstructor;
+import me.jazzy.obp.config.exception.notfound.CategoryNotFoundException;
 import me.jazzy.obp.dto.ResponseBody;
 import me.jazzy.obp.model.Category;
 import me.jazzy.obp.repository.CategoryRepository;
@@ -22,7 +23,7 @@ public class CategoryService {
 
     public Category getByName(String name) {
         return categoryRepository.findByName(name)
-                    .orElseThrow(() -> new RuntimeException("There is no such category."));
+                    .orElseThrow(() -> new CategoryNotFoundException("There is no such category."));
     }
 
     public ResponseBody save(Category category) {
