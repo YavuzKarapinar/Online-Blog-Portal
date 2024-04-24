@@ -44,8 +44,24 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(configurer -> {
                     configurer.requestMatchers(WHITE_LIST)
                             .permitAll();
-                    configurer.requestMatchers(HttpMethod.POST, "/api/v1/auth/**")
+                    configurer.requestMatchers(HttpMethod.POST, "/api/v*/auth/**")
                             .permitAll();
+                    configurer.requestMatchers("/api/v*/mails/**")
+                            .permitAll();
+                    configurer.requestMatchers(HttpMethod.GET, "api/v*/categories")
+                            .permitAll();
+                    configurer.requestMatchers(HttpMethod.POST, "/api/v*/categories")
+                            .hasAuthority("ADMIN");
+                    configurer.requestMatchers(HttpMethod.PUT, "/api/v*/categories")
+                            .hasAuthority("ADMIN");
+                    configurer.requestMatchers("/api/v*/comments/**")
+                            .permitAll();
+                    configurer.requestMatchers(HttpMethod.GET, "/api/v*/posts")
+                            .permitAll();
+                    configurer.requestMatchers("/api/v*/posts/**")
+                            .hasAnyAuthority("ADMIN", "BLOGGER");
+                    configurer.requestMatchers("/api/v1/users/**")
+                            .hasAuthority("ADMIN");
                     configurer.anyRequest().authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable)
@@ -66,7 +82,7 @@ public class WebSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-                AuthenticationConfiguration configuration) throws Exception {
+            AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 

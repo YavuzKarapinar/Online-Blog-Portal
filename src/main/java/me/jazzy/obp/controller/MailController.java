@@ -1,6 +1,5 @@
 package me.jazzy.obp.controller;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 
 import me.jazzy.obp.dto.ContactDto;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/mails")
-@SecurityRequirement(name = "obp")
 @AllArgsConstructor
 public class MailController {
 
